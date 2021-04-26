@@ -17,7 +17,7 @@
         <li><a href="#uninstallation">Uninstallation</a></li>
       </ul>
     </li>
-    <li><a href="#Desicions & Documentation">Desicions & Documentation</a></li>
+    <li><a href="#Desicions-and-Documentation">Desicions and Documentation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -64,7 +64,7 @@ Java SE Development Kit 11.0.9
 
 <!-- DOCUMENTATION -->
 
-## Desicions & Documentation
+## Desicions and Documentation
 #### A brief description of all implementation desicions agreed on.
 
 - **Implementation Language:** the team needs to choose a programming langauge to use inside their compiler.
