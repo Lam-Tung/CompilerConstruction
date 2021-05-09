@@ -95,13 +95,13 @@ Java SE Development Kit 11.0.9
 
 ## License
 
-Distributed under the ANTLR License 4 . See [`LICENSE`](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/LICENSE) for more information.
+Distributed under the GNU General Public License 3 . See [`LICENSE`](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/LICENSE) for more information.
 
 
 <!-- CONTACT -->
 ## Contact
 
-  - Lam-Tung Truong,Mohamed Ibrahim Zgaya
+  - Lam-Tung Truong , Mohamed Ibrahim Zgaya
   
 
 

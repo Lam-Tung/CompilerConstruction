@@ -16,6 +16,7 @@ public class parser {
      */
     Token c_token ;
 
+    treeNode root;
     /**
      * @brief class constructor , will take filepath and create local lexer and check the syntax
      * @param path path of the file to check relative to the project root
@@ -23,7 +24,11 @@ public class parser {
     public parser(String path){
         lex = new Lexer(path);
         c_token = lex.nxtToken();
-        if(input()) cerr("Syntax checked successfully !!");
+        if(input()) {
+            cerr("Syntax checked successfully !!");
+            cerr("AST :");
+            root.print("");
+        }
         else cerr("Please Fix the Syntax Errors !!");
     }
 
@@ -37,7 +42,8 @@ public class parser {
      * @return boolean value indicating if the syntax checking was successfull
      */
     boolean input(){
-        if(!p_chk()) {
+        root = new treeNode("root");
+        if(!p_chk(root)) {
             cerr("Package Error !!"); return false;
         }
         if(!m_chk()) {
@@ -45,7 +51,7 @@ public class parser {
         }
         boolean no_ft_errors =true;
         while(c_token.getType()!=TokenType.EOF){
-            no_ft_errors= no_ft_errors && f_chk();
+            no_ft_errors= no_ft_errors && f_chk(root);
             if(!no_ft_errors)break;
         }
         return no_ft_errors;
@@ -55,17 +61,21 @@ public class parser {
      * @brief checks the package declaring syntax
      * @return true if the syntax is correct , false otherwise
      */
-    boolean p_chk(){
+    boolean p_chk(treeNode mother){
+        treeNode left = new treeNode("package_dec");
         if(c_token.getType()!=TokenType.Package) {
             cerr("Semantic Error : Package not declared. Please provide working package !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.Identifier && c_token.getType()!=TokenType.Main){
             cerr("Semantic Error : Package name missing. Expected Package packagename or Package main!");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
+        mother.addRightNode(left);
         return true;
     }
 
@@ -90,31 +100,37 @@ public class parser {
      F -> 'func' Identifier '(' ')' '{' E '}'
      * @return true if the syntax is correct , false otherwise
      */
-    boolean f_chk(){
+    boolean f_chk(treeNode mother){
+        treeNode left = new treeNode("function_dec");
         if(c_token.getType()!=TokenType.Func) {
             cerr("Syntax Error : Function keyword missing. Expected func f_name !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.Identifier && c_token.getType()!=TokenType.Main){
             cerr("Syntax Error : Function name missing. Expected func f_name or func main!");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.LeftParen){
             cerr("Syntax Error : Function body error. Expected func f_name() {} !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.RightParen){
             cerr("Syntax Error : Open left paren '(' !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.LeftBrace){
             cerr("Syntax Error : Function body error. Missing Braces {}!");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         if(!lex.chk_braces()) {
             cerr("Syntax Error : open left Brace !!");
             return false;
@@ -122,12 +138,13 @@ public class parser {
         c_token = lex.nxtToken();
         boolean no_body_errors = true;
         while(c_token.getType()!=TokenType.RightBrace){
-            no_body_errors = no_body_errors && e_chk();
+            no_body_errors = no_body_errors && e_chk(left);
             if(!no_body_errors) break;
         }
         if(!no_body_errors) return false;
         //exited the function body
         c_token = lex.nxtToken();
+        mother.addRightNode(left);
         return true;
     }
 
@@ -136,27 +153,33 @@ public class parser {
      E -> 'var' Identifier Equals Number | £
      * @return
      */
-    boolean e_chk(){
+    boolean e_chk(treeNode mother){
+        treeNode left = new treeNode("expression");
         if(c_token.getType()!=TokenType.Var) {
             cerr("error at token :\t"+c_token.getValue()+"\nSyntax Error : Variable keyword missing. Expected var variable_name !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.Identifier){
             cerr("error at token :\t"+c_token.getValue()+"\nSyntax Error : Variable name missing. Expected var variable_name !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.Equals){
             cerr("error at token :\t"+c_token.getValue()+"\nSyntax Error : Variable declaration error. Expected var variable_name = value !");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
         if(c_token.getType()!=TokenType.Number){
             cerr("error at token :\t"+c_token.getValue()+"\nSyntax Error : Variable declaration error. value should be a number!");
             return false;
         }
+        left.addRightNode(new treeNode(c_token));
         c_token = lex.nxtToken();
+        mother.addRightNode(left);
         return true;
     }
 
