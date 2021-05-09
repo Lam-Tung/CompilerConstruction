@@ -101,7 +101,8 @@ Distributed under the GNU General Public License 3 . See [`LICENSE`](https://cod
 <!-- CONTACT -->
 ## Contact
 
-  - Lam-Tung Truong , Mohamed Ibrahim Zgaya
+  - Mohamed Ibrahim Zgaya
+  - Lam-Tung Truong
   
 
 

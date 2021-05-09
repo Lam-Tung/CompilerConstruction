@@ -15,7 +15,9 @@ public class parser {
      * current token being processed by the parser
      */
     Token c_token ;
-
+    /**
+     * the root node that will represent the AST of this file
+     */
     treeNode root;
     /**
      * @brief class constructor , will take filepath and create local lexer and check the syntax
@@ -151,7 +153,7 @@ public class parser {
     /**
      * @brief checks if the syntax of the expression is correct according to the defined Grammar :
      E -> 'var' Identifier Equals Number | £
-     * @return
+     * @return true or false depending on the expression correctness
      */
     boolean e_chk(treeNode mother){
         treeNode left = new treeNode("expression");
