@@ -1,0 +1,10 @@
+Terminals:
+Keywords [package, func, var]
+Identifier [a-zA-Z][a-zA-Z0-9]*
+Number [0-9]+
+Equals [=]
+Literal terminator symbols [\(, \), \{, \}, \[, \]]
+
+Productions:
+S -> progBody
+progBody -> Keywords Identifier Keywords
