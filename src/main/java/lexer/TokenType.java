@@ -6,7 +6,7 @@ public enum TokenType {
     Package("package"),
     Func("func"),
     Var("var"),
-
+    Main("main"),
     // Identifier
     Identifier("Identifier"),
 
@@ -20,7 +20,9 @@ public enum TokenType {
     Equals("EqualsSign"),
 
     // Number
-    Number("Number")
+    Number("Number"),
+    // EOF
+    EOF("EOF")
     ;
 
     private String value;

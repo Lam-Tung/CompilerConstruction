@@ -1,14 +1,15 @@
-import lexer.Lexer;
-import lexer.Token;
-
-import java.util.List;
+import parser.parser;
 
 public class Main {
     public static void main(String[] args) {
-        Lexer lex = new Lexer();
-        List<Token> list = lex.generateTokens("src/main/resources/go/VarDeclaration.go");
-        for (Token t : list) {
-            System.out.println(t.getValue() + ":" + t.getType().getValue());
-        }
+        parser p ;
+        System.out.println("\n\nchecking file : VarDeclaration.go ...");
+        p=new parser("src/main/resources/go/VarDeclaration.go");
+        System.out.println("\n\nchecking file : varErrors.go ...");
+        p=new parser("src/main/resources/go/varErrors.go");
+        System.out.println("\n\nchecking file : no_main.go ...");
+        p=new parser("src/main/resources/go/no_main.go");
+        System.out.println("\n\nchecking file : open_braces.go ...");
+        p=new parser("src/main/resources/go/open_braces.go");
     }
 }

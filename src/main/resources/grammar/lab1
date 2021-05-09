@@ -5,6 +5,9 @@ Number [0-9]+
 Equals [=]
 Literal terminator symbols [\(, \), \{, \}, \[, \]]
 
-Productions:
-S -> progBody
-progBody -> Keywords Identifier Keywords
+Grammer
+input -> P M F* EOF
+p -> 'package' Identifier
+M -> 'func' 'main' '(' ')' '{' E '}'
+F -> 'func' Identifier '(' ')' '{' E '}'
+E -> 'var' Identifier Equals Number | £
