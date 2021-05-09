@@ -182,10 +182,12 @@ public class Lexer {
     }
 
     /**
-     * @brief prints a list of the generated tokens , used for debugging
+     * @brief prints a list of the generated tokens , symbol table
      */
-    public void print(){
-        for(Token t : tokenList) System.out.println(t.getValue()+':'+t.getType().getValue());
+    public void printSymbolTable(){
+        System.out.println("############### SYMBOL TABLE ##############");
+
+        for(Token t : tokenList) System.out.println(t.getValue()+"\t:\t"+t.getType().getValue());
     }
 
     /**

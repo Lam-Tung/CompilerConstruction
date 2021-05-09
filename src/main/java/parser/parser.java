@@ -30,6 +30,7 @@ public class parser {
             cerr("Syntax checked successfully !!");
             cerr("AST :");
             root.print("");
+            lex.printSymbolTable();
         }
         else cerr("Please Fix the Syntax Errors !!");
     }
