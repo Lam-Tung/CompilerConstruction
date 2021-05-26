@@ -29,5 +29,5 @@ buildNumber.properties
 #
 # ANTLR
 #
-out/
-gen/
+/gen/
+/gen/antlr/
