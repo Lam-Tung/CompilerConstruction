@@ -17,7 +17,7 @@
         <li><a href="#uninstallation">Uninstallation</a></li>
       </ul>
     </li>
-    <li><a href="#Desicions-and-Documentation">Desicions and Documentation</a></li>
+    <li><a href="#Desicions-and-Documentation">Decisions and Documentation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -29,7 +29,7 @@
 
 ## About The Project
 
-This Project focusses on building a compiler, that will be compiling a subset (dialect) of the chosen input language and output in the chosen target language. The decisions made are described below. 
+This Project focuses on building a compiler, that will be compiling a subset (dialect) of the chosen input language and output in the chosen target language. The decisions made are described below. 
 
 Please note that this is the latest state of the project. if you want to see the older version of the project, please switch to older version branch (if available).
 
@@ -59,15 +59,21 @@ Java SE Development Kit 11.0.9
    ```bash
    git clone https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E.git
    ```
+2. Links
+   >[Lexer from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/lexer)
+   >[Parser from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/parser)
+   >[Parser using Antlr](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/antlr)
+   >[Our Test Cases](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/resources/go)
+   >[Our Golang Grammar](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/src/main/resources/grammar/goSubset.g4)
 
 ### Uninstallation
 
 <!-- DOCUMENTATION -->
 
-## Desicions and Documentation
-#### A brief description of all implementation desicions agreed on.
+## Decisions and Documentation
+#### A brief description of all implementation decisions agreed on.
 
-- **Implementation Language:** the team needs to choose a programming langauge to use inside their compiler.
+- **Implementation Language:** the team needs to choose a programming language to use inside their compiler.
 	
 	>[JAVA](https://www.java.com/en/)
 	
