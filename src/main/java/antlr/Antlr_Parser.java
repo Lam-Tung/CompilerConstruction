@@ -1,6 +1,7 @@
 package antlr;
 
 
+import antlr.test.myVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -20,6 +21,8 @@ public class Antlr_Parser {
         goSubsetParser go_parser = new goSubsetParser(tokens);
         //generating the parse tree
         ParseTree tree = go_parser.sourceFile();
+        myVisitor visitor = new myVisitor();
+        visitor.visit(tree);
         System.out.println("end");
     }
 }
