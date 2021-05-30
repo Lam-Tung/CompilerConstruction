@@ -1,6 +1,14 @@
 // Define a grammar called goSubset
 grammar goSubset;
 
+
+// Rules
+sourceFile: packageDecl mainDecl funcDecl* EOF ;
+packageDecl: PACKAGE packageName = IDENTIFIER | PACKAGE packageName = 'main' ;
+mainDecl: FUNC MAIN LEFTPAREN RIGHTPAREN LEFTBRACE expr* RIGHTBRACE ;
+funcDecl: FUNC IDENTIFIER LEFTPAREN RIGHTPAREN LEFTBRACE expr* RIGHTBRACE ;
+expr: VAR IDENTIFIER EQUALS NUMBER ;
+
 // Tokens
 PACKAGE: 'package' ;
 FUNC: 'func' ;
@@ -16,12 +24,4 @@ LEFTBRACK: '[' ;
 RIGHTBRACK: ']' ;
 EQUALS: '=' ;
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
-
-// Rules
-start: packageDecl mainDecl funcDecl* EOF ;
-packageDecl: PACKAGE IDENTIFIER | PACKAGE 'main' ;
-mainDecl: FUNC MAIN LEFTPAREN RIGHTPAREN LEFTBRACE expr* RIGHTBRACE ;
-funcDecl: FUNC IDENTIFIER LEFTPAREN RIGHTPAREN LEFTBRACE expr* RIGHTBRACE ;
-expr: VAR IDENTIFIER EQUALS NUMBER ;
-
 
