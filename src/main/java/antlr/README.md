@@ -40,22 +40,34 @@ IntelliJ IDEA
 #### Using IntelliJ ANTLR Plugin
 
 1. Navigate to the grammar file goSubset.g4 and select the start rule, in this case sourceFile
-![source file img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/sourcefile.PNG)
+
+- ![source file img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/sourcefile.PNG)
+
 2. Right click and select "Test Rule sourceFile"
-![test rule img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/test%20rule.PNG)
+
+- ![test rule img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/test%20rule.PNG)
+
 3. Enter the test case file in the input field or use existing file
-![test case img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/antlr%20preview.PNG)
+
+- ![test case img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/antlr%20preview.PNG)
+
 4. The Parse tree will be displayed on the right side
-![parse tree img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/tree%20preview.PNG)
+
+- ![parse tree img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/tree%20preview.PNG)
 
 #### Using any IDE breakpoints
 
 1. Add a break point at the end of the program
-![breakpoint img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/break%20point.PNG)
+
+- ![breakpoint img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/break%20point.PNG)
+
 2. Run in Debug mode
-![debug img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/debug%20mode.PNG)
+
+- ![debug img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/debug%20mode.PNG)
+
 3. Inspect the tree
-![tree img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/inspect.PNG)
+
+- ![tree img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/inspect.PNG)
 
 #### No IDE ?
 
@@ -65,7 +77,8 @@ Please specify the Antlr jar dependency. E.g, if the Antlr jar is in the same di
     -cp antlr-4.9.2-complete.jar
     ```
 The java code will output a structured tree derived from the actual parsed tree using our custom visitor class 'myVisitor.java'
-![tree console img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/tree%20console.PNG)
+
+- ![tree console img](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/img/tree%20console.PNG)
 
 ### Uninstallation
 
