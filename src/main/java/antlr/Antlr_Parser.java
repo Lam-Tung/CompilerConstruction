@@ -15,7 +15,8 @@ public class Antlr_Parser {
         //test_file("src/main/java/antlr/test/fail/duplicate_function.go");
         //test_file("src/main/java/antlr/test/fail/duplicate_var.go");
         //test_file("src/main/java/antlr/test/fail/undeclared_var_1.go");
-        test_file("src/main/java/antlr/test/fail/undeclared_var_2.go");
+        //test_file("src/main/java/antlr/test/fail/undeclared_var_2.go");
+        test_file("src/main/java/antlr/test/LLVMVarDecl.go");
     }
     public static void test_file(String filepath)throws IOException{
         //lexer requires a charstream
@@ -27,9 +28,16 @@ public class Antlr_Parser {
         goSubsetParser go_parser = new goSubsetParser(tokens);
         //generating the parse tree
         ParseTree tree = go_parser.sourceFile();
-        myVisitor visitor = new myVisitor();
+
+        // get filename
+        String[] file = filepath.split("/");
+        String fileName = file[file.length-1];
+        myVisitor visitor = new myVisitor(fileName);
         visitor.visit(tree);
         //visitor.printSymbolTable();
         System.out.println("File processing ended successfully !!");
+        System.out.println();
+        System.out.println("LLVM IR: ");
+        visitor.printIR();
     }
 }

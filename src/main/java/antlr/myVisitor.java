@@ -3,15 +3,22 @@ package antlr;
 import antlr.goSubsetBaseVisitor;
 import antlr.goSubsetParser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class myVisitor extends goSubsetBaseVisitor<Object> {
 
     HashMap<String,Symbol> symbolTable;
+    List<String> llvmIR;
+    String fileName;
 
-    myVisitor(){
+    myVisitor(String fileName){
         symbolTable = new HashMap<>();
+        llvmIR = new LinkedList<>();
+        this.fileName = fileName;
         System.out.println("Symbol Table\nName : Type : Scope");
     }
     void addSymbol (Symbol temp_s){
@@ -33,6 +40,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         /*System.out.println();
         System.out.println("-->Source_File : ");*/
         //System.out.println(ctx.getRuleIndex());
+        generateIRSrcFile(ctx);
         return visitChildren(ctx);
     }
 
@@ -60,6 +68,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         addSymbol(temp_s);
         /*System.out.println();
         System.out.println("\t-->Main_Dec from "+ctx.start.getLine()+","+ctx.start.getStartIndex()+" to "+ctx.stop.getLine()+","+ctx.stop.getStopIndex()+" :");*/
+        generateIRMainFunc(ctx);
         return visitChildren(ctx);
     }
 
@@ -80,6 +89,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         /*System.out.println();
         System.out.println("\t-->Function_Dec from "+ctx.start.getLine()+","+ctx.start.getStartIndex()+" to "+ctx.stop.getLine()+","+ctx.stop.getStopIndex()+" :");
         System.out.println("\t\tFunc_Identifier : "+ctx.getChild(1).getText());*/
+        generateIRFuncDecl(ctx);
         return visitChildren(ctx);
     }
 
@@ -99,11 +109,13 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
             System.exit(0);
         }
         addSymbol(temp_s);
+        generateIRVarDeclVar(ctx);
         return visitChildren(ctx);
     }
 
+
     @Override public Object visitVarDecl_num(goSubsetParser.VarDecl_numContext ctx) {
-        //
+        generateIRVarDeclVNum(ctx);
         return visitChildren(ctx);
     }
 
@@ -144,6 +156,38 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         return visitChildren(ctx);
     }
 
+    private void generateIRSrcFile(goSubsetParser.SourceFileContext ctx) {
+        llvmIR.add("; ModuleID = '" + fileName + "'");
+        llvmIR.add("source_filename = \"" + fileName + "\"");
+        llvmIR.add("");
+    }
 
+    private void generateIRMainFunc(goSubsetParser.MainDeclContext ctx) {
+        llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
+        llvmIR.add("define dso_local void @main() #0 {");
+        llvmIR.add("}");
+        llvmIR.add("");
+    }
 
+    private void generateIRFuncDecl(goSubsetParser.FuncDeclContext ctx) {
+        llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
+        llvmIR.add("define dso_local void @" + ctx.getChild(1).getText() + "() #0 {");
+        llvmIR.add("}");
+        llvmIR.add("");
+    }
+
+    private void generateIRVarDeclVar(goSubsetParser.VarDeclContext ctx) {
+        llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
+    }
+
+    private void generateIRVarDeclVNum(goSubsetParser.VarDecl_numContext ctx) {
+        //llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
+        //llvmIR.add(llvmIR.size()-2, "\tstore i32 " + ctx.getText() + ", i32* %" + ctx.getChild(0).getChild(1).getText() + ", align 4");
+    }
+
+    public void printIR() {
+        for (int i = 0; i < llvmIR.size(); i++) {
+            System.out.println(llvmIR.get(i));
+        }
+    }
 }
