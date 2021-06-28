@@ -1,5 +1,5 @@
-package antlr;
 // Generated from C:/Users/zgaya/Documents/hda/sem8/Compiler Construction/X-Raster-E/src/main/resources/grammar\goSubset.g4 by ANTLR 4.9.1
+package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -112,6 +112,30 @@ public class goSubsetBaseListener implements goSubsetListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVarDecl_op(goSubsetParser.VarDecl_opContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarDecl_op(goSubsetParser.VarDecl_opContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperation(goSubsetParser.OperationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperation(goSubsetParser.OperationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVarAssign(goSubsetParser.VarAssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -143,6 +167,18 @@ public class goSubsetBaseListener implements goSubsetListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVarAssign_var(goSubsetParser.VarAssign_varContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarAssign_op(goSubsetParser.VarAssign_opContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarAssign_op(goSubsetParser.VarAssign_opContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

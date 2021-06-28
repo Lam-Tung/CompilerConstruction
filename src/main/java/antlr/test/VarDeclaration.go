@@ -5,13 +5,13 @@ func main() {
 	var j = 1337
 	var ezpz = j
 	j = i
-	i = 10
+	i = 10 + 5
 }
 func foo() {
     var tst = 12
 }
 func foo1() {
-    var tst = 12
+    var tst = 12 + 4
 }
 func foll() {
     var i = 4

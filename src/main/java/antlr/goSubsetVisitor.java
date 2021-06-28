@@ -1,5 +1,5 @@
-package antlr;
 // Generated from C:/Users/zgaya/Documents/hda/sem8/Compiler Construction/X-Raster-E/src/main/resources/grammar\goSubset.g4 by ANTLR 4.9.1
+package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -59,6 +59,18 @@ public interface goSubsetVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarDecl_var(goSubsetParser.VarDecl_varContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link goSubsetParser#varDecl_op}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDecl_op(goSubsetParser.VarDecl_opContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link goSubsetParser#operation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperation(goSubsetParser.OperationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link goSubsetParser#varAssign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -76,4 +88,10 @@ public interface goSubsetVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarAssign_var(goSubsetParser.VarAssign_varContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link goSubsetParser#varAssign_op}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarAssign_op(goSubsetParser.VarAssign_opContext ctx);
 }

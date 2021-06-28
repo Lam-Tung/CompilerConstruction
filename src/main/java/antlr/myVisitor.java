@@ -150,6 +150,21 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         return visitChildren(ctx);
     }
 
+    @Override public Object visitVarDecl_op(goSubsetParser.VarDecl_opContext ctx) {
+        System.out.println(ctx);
+        generateIRVarDecl_op(ctx);
+        return visitChildren(ctx);
+    }
+
+    @Override public Object visitOperation(goSubsetParser.OperationContext ctx) {
+        //System.out.println(ctx.toString());
+        return visitChildren(ctx);
+    }
+    @Override public Object visitVarAssign_op(goSubsetParser.VarAssign_opContext ctx) {
+        System.out.println(ctx.getText());
+        generateIRVarAssign_op(ctx);
+        return visitChildren(ctx);
+    }
     @Override public Object visitVarAssign(goSubsetParser.VarAssignContext ctx) {
         //System.out.println(ctx.invokingState);
         //System.out.println(ctx.getChild(0).getChild(1)+" : "+ctx.getChild(0).getChild(0)+" : "+ctx.parent.parent.hashCode() );
@@ -238,6 +253,28 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         LLVMValueRef tempnum = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getText()));
         varvalueTable.replace(ctx.getChild(0).getText(),Integer.parseInt(ctx.getChild(2).getText()));
         //LLVMBuildRet(builder,null);
+    }
+    private void   generateIRVarDecl_op(goSubsetParser.VarDecl_opContext ctx){
+        System.out.println(ctx.toString());
+    }
+    private void   generateIRVarAssign_op(goSubsetParser.VarAssign_opContext ctx){
+
+        System.out.println(ctx.toString());
+        if(ctx.getChild(2).getChild(1).getText().equals("+")) {
+            System.out.println("+ op");
+            LLVMBasicBlockRef plus_op = LLVMAppendBasicBlockInContext(context, llvmsymbolTable.get("main"), "plus operation");
+            LLVMPositionBuilderAtEnd(builder, plus_op);
+            LLVMValueRef par1 = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getChild(0).getText()));
+            LLVMValueRef par2 = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getChild(2).getText()));
+            LLVMValueRef tempvar = LLVMBuildAdd(builder,par1,par2,"plus operation");
+            LLVMBuildRet(builder, null);
+        }
+        else if(ctx.getChild(2).getChild(1).getText().equals("-")) {
+            System.out.println("- op");
+            LLVMValueRef par1 = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getChild(0).getText()));
+            LLVMValueRef par2 = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getChild(2).getText()));
+            LLVMValueRef tempvar = LLVMBuildSub(builder,par1,par2,"minus operation");
+        }
     }
     //creates a basic block in  a specific function with specific name
     private LLVMBasicBlockRef addBasicBlock(LLVMBasicBlockRef block,String str){

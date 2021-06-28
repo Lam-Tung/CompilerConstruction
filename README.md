@@ -60,11 +60,16 @@ Java SE Development Kit 11.0.9
    git clone https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E.git
    ```
 2. Links
-   >[Lexer from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/lexer)
-   >[Parser from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/parser)
-   >[Parser using Antlr](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/antlr)
-   >[Our Test Cases](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/resources/go)
-   >[Our Golang Grammar](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/src/main/resources/grammar/goSubset.g4)
+
+   >  [Lexer from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/lexer)
+
+   >  [Parser from scratch](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/parser)
+
+   >  [Parser using Antlr](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/java/antlr)
+
+   >  [Our Test Cases](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/tree/master/src/main/resources/go)
+
+   >  [Our Golang Grammar](https://code.fbi.h-da.de/compilerconstruction/compcon2021/X-Raster-E/-/blob/master/src/main/resources/grammar/goSubset.g4)
 
 ### Uninstallation
 

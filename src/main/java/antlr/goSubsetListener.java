@@ -1,5 +1,5 @@
-package antlr;
 // Generated from C:/Users/zgaya/Documents/hda/sem8/Compiler Construction/X-Raster-E/src/main/resources/grammar\goSubset.g4 by ANTLR 4.9.1
+package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -88,6 +88,26 @@ public interface goSubsetListener extends ParseTreeListener {
 	 */
 	void exitVarDecl_var(goSubsetParser.VarDecl_varContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link goSubsetParser#varDecl_op}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDecl_op(goSubsetParser.VarDecl_opContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link goSubsetParser#varDecl_op}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDecl_op(goSubsetParser.VarDecl_opContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link goSubsetParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperation(goSubsetParser.OperationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link goSubsetParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperation(goSubsetParser.OperationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link goSubsetParser#varAssign}.
 	 * @param ctx the parse tree
 	 */
@@ -117,4 +137,14 @@ public interface goSubsetListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarAssign_var(goSubsetParser.VarAssign_varContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link goSubsetParser#varAssign_op}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarAssign_op(goSubsetParser.VarAssign_opContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link goSubsetParser#varAssign_op}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarAssign_op(goSubsetParser.VarAssign_opContext ctx);
 }
