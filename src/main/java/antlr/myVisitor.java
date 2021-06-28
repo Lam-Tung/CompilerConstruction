@@ -2,24 +2,43 @@ package antlr;
 
 import antlr.goSubsetBaseVisitor;
 import antlr.goSubsetParser;
+import org.bytedeco.llvm.LLVM.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.bytedeco.llvm.global.LLVM.*;
+import static org.bytedeco.llvm.global.LLVM.LLVMInitializeNativeTarget;
+
 
 public class myVisitor extends goSubsetBaseVisitor<Object> {
 
     HashMap<String,Symbol> symbolTable;
-    List<String> llvmIR;
+    HashMap<String,LLVMValueRef> llvmsymbolTable;
+    //List<String> llvmIR;
     String fileName;
+    LLVMContextRef context ;
+    LLVMModuleRef module ;
+    LLVMBuilderRef builder;
+    LLVMTypeRef int32; // our subset grammar only uses integers
+    LLVMTypeRef voidfunc; //void function type
 
-    myVisitor(String fileName){
+    myVisitor(String fileName,LLVMContextRef ct,LLVMModuleRef mod,LLVMBuilderRef build,LLVMTypeRef type){
         symbolTable = new HashMap<>();
-        llvmIR = new LinkedList<>();
+        llvmsymbolTable = new HashMap<>();
         this.fileName = fileName;
-        System.out.println("Symbol Table\nName : Type : Scope");
+        //System.out.println("Symbol Table\nName : Type : Scope");
+
+
+        context = ct;
+        module = mod;
+        builder = build;
+        int32 = type;
+
+        voidfunc = LLVMFunctionType(LLVMVoidTypeInContext(context),LLVMVoidTypeInContext(context),0,0);
+
     }
     void addSymbol (Symbol temp_s){
         symbolTable.put(temp_s.getName(),temp_s);
@@ -109,13 +128,13 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
             System.exit(0);
         }
         addSymbol(temp_s);
-        generateIRVarDeclVar(ctx);
+
         return visitChildren(ctx);
     }
 
 
     @Override public Object visitVarDecl_num(goSubsetParser.VarDecl_numContext ctx) {
-        generateIRVarDeclVNum(ctx);
+        generateIRVarDecl_num(ctx);
         return visitChildren(ctx);
     }
 
@@ -126,6 +145,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
             System.err.println("Declaration Error at line "+ctx.start.getLine()+": "+ctx.getChild(0)+" \""+ctx.getChild(3)+"\" is undefined in this scope !!");
             System.exit(0);
         }
+        generateIRVarDecl_var(ctx);
         return visitChildren(ctx);
     }
 
@@ -142,7 +162,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
     }
 
     @Override public Object visitVarAssign_num(goSubsetParser.VarAssign_numContext ctx) {
-        //
+        generateIRVarAssign_num(ctx);
         return visitChildren(ctx);
     }
 
@@ -153,41 +173,57 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
             System.err.println("Assignment Error at line "+ctx.start.getLine()+" : var \""+ctx.getChild(2)+"\" is undefined in this scope !!");
             System.exit(0);
         }
+        generateIRVarAssign_var(ctx);
         return visitChildren(ctx);
     }
 
     private void generateIRSrcFile(goSubsetParser.SourceFileContext ctx) {
-        llvmIR.add("; ModuleID = '" + fileName + "'");
+        /*llvmIR.add("; ModuleID = '" + fileName + "'");
         llvmIR.add("source_filename = \"" + fileName + "\"");
-        llvmIR.add("");
+        llvmIR.add("");*/
     }
 
     private void generateIRMainFunc(goSubsetParser.MainDeclContext ctx) {
-        llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
+        /*llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
         llvmIR.add("define dso_local void @main() #0 {");
         llvmIR.add("}");
-        llvmIR.add("");
+        llvmIR.add("");*/
+
+        LLVMValueRef main = LLVMAddFunction(module, "main", voidfunc);
+        LLVMSetFunctionCallConv(main, LLVMCCallConv);
+        llvmsymbolTable.put("main",main);
     }
 
     private void generateIRFuncDecl(goSubsetParser.FuncDeclContext ctx) {
-        llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
+        /*llvmIR.add("; Function Attrs: noinline nounwind optnone sspstrong uwtable");
         llvmIR.add("define dso_local void @" + ctx.getChild(1).getText() + "() #0 {");
         llvmIR.add("}");
-        llvmIR.add("");
+        llvmIR.add("");*/
+        LLVMValueRef tempfunc = LLVMAddFunction(module, ctx.getChild(1).getText(),voidfunc );
+        LLVMSetFunctionCallConv(tempfunc, LLVMCCallConv);
+        llvmsymbolTable.put(ctx.getChild(1).getText(),tempfunc);
     }
 
-    private void generateIRVarDeclVar(goSubsetParser.VarDeclContext ctx) {
-        llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
+    private void generateIRVarDecl_var(goSubsetParser.VarDecl_varContext ctx) {
+        //llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
+
     }
 
-    private void generateIRVarDeclVNum(goSubsetParser.VarDecl_numContext ctx) {
+    private void generateIRVarDecl_num(goSubsetParser.VarDecl_numContext ctx) {
         //llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
         //llvmIR.add(llvmIR.size()-2, "\tstore i32 " + ctx.getText() + ", i32* %" + ctx.getChild(0).getChild(1).getText() + ", align 4");
+
+    }
+    private void generateIRVarAssign_var(goSubsetParser.VarAssign_varContext ctx) {
+
+    }
+    private void generateIRVarAssign_num(goSubsetParser.VarAssign_numContext ctx) {
+
     }
 
     public void printIR() {
-        for (int i = 0; i < llvmIR.size(); i++) {
+        /*for (int i = 0; i < llvmIR.size(); i++) {
             System.out.println(llvmIR.get(i));
-        }
+        }*/
     }
 }

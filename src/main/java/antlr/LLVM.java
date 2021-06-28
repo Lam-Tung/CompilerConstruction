@@ -1,6 +1,8 @@
 package antlr;
 
-import org.bytedeco.javacpp.*;
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.PointerPointer;
 import org.bytedeco.llvm.LLVM.*;
 
 import static org.bytedeco.llvm.global.LLVM.*;
@@ -23,8 +25,10 @@ public class LLVM {
         LLVMBuilderRef builder = LLVMCreateBuilderInContext(context);
         LLVMTypeRef i32Type = LLVMInt32TypeInContext(context);
         LLVMTypeRef factorialType = LLVMFunctionType(i32Type, i32Type, /* argumentCount */ 1, /* isVariadic */ 0);
-
-        LLVMValueRef factorial = LLVMAddFunction(module, "factorial", factorialType);
+       // LLVMTypeRef tvoid = LLVMVoidTypeInContext(context);
+       // LLVMTypeRef factype = LLVMFunctionType(tvoid,tvoid,0,0);
+       // LLVMValueRef factorial = LLVMAddFunction(module, "fac", factype);
+        LLVMValueRef factorial = LLVMAddFunction(module, "fac", factorialType);
         LLVMSetFunctionCallConv(factorial, LLVMCCallConv);
 
         LLVMValueRef n = LLVMGetParam(factorial, /* parameterIndex */0);
