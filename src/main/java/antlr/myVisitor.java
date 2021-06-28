@@ -10,13 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.bytedeco.llvm.global.LLVM.*;
-import static org.bytedeco.llvm.global.LLVM.LLVMInitializeNativeTarget;
 
 
 public class myVisitor extends goSubsetBaseVisitor<Object> {
 
     HashMap<String,Symbol> symbolTable;
     HashMap<String,LLVMValueRef> llvmsymbolTable;
+    HashMap<String,Integer>varvalueTable;
     //List<String> llvmIR;
     String fileName;
     LLVMContextRef context ;
@@ -28,6 +28,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
     myVisitor(String fileName,LLVMContextRef ct,LLVMModuleRef mod,LLVMBuilderRef build,LLVMTypeRef type){
         symbolTable = new HashMap<>();
         llvmsymbolTable = new HashMap<>();
+        varvalueTable = new HashMap<>();
         this.fileName = fileName;
         //System.out.println("Symbol Table\nName : Type : Scope");
 
@@ -162,6 +163,7 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
     }
 
     @Override public Object visitVarAssign_num(goSubsetParser.VarAssign_numContext ctx) {
+
         generateIRVarAssign_num(ctx);
         return visitChildren(ctx);
     }
@@ -192,6 +194,8 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         LLVMValueRef main = LLVMAddFunction(module, "main", voidfunc);
         LLVMSetFunctionCallConv(main, LLVMCCallConv);
         llvmsymbolTable.put("main",main);
+
+        createBasicBlock("main","main_block");
     }
 
     private void generateIRFuncDecl(goSubsetParser.FuncDeclContext ctx) {
@@ -202,25 +206,50 @@ public class myVisitor extends goSubsetBaseVisitor<Object> {
         LLVMValueRef tempfunc = LLVMAddFunction(module, ctx.getChild(1).getText(),voidfunc );
         LLVMSetFunctionCallConv(tempfunc, LLVMCCallConv);
         llvmsymbolTable.put(ctx.getChild(1).getText(),tempfunc);
+
+        createBasicBlock(ctx.getChild(1).getText(),ctx.getChild(1).getText()+"_block");
     }
 
     private void generateIRVarDecl_var(goSubsetParser.VarDecl_varContext ctx) {
         //llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
-
+        LLVMValueRef tempnum = LLVMConstInt(int32,0,varvalueTable.get(ctx.getChild(3).getText()));
+        varvalueTable.put(ctx.getChild(1).getText(),varvalueTable.get(ctx.getChild(3).getText()));
     }
 
     private void generateIRVarDecl_num(goSubsetParser.VarDecl_numContext ctx) {
         //llvmIR.add(llvmIR.size()-2, "\t%" + ctx.getChild(0).getChild(1).getText() + " = alloca i32, align 4");
         //llvmIR.add(llvmIR.size()-2, "\tstore i32 " + ctx.getText() + ", i32* %" + ctx.getChild(0).getChild(1).getText() + ", align 4");
-
+        //LLVMBasicBlockRef block = addBasicBlock(hashnameTable.get(ctx.parent.parent.parent.hashCode()),"Var_Num_Declaration: "+ctx.getChild(1).getText()+ctx.getChild(2).getText()+ctx.getChild(3).getText());
+        //LLVMPositionBuilderAtEnd(builder, block);
+        LLVMValueRef tempnum = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(3).getText()));
+        varvalueTable.put(ctx.getChild(1).getText(),Integer.parseInt(ctx.getChild(3).getText()));
+        //LLVMBuildRet(builder,null);
     }
     private void generateIRVarAssign_var(goSubsetParser.VarAssign_varContext ctx) {
-
+        //LLVMBasicBlockRef block = createBasicBlock(hashnameTable.get(ctx.parent.parent.parent.hashCode()),"Var_Var_Assignment: "+ctx.getChild(0).getText()+ctx.getChild(1).getText()+ctx.getChild(2).getText());
+        //LLVMPositionBuilderAtEnd(builder, block);
+        LLVMValueRef tempnum = LLVMConstInt(int32,0,varvalueTable.get(ctx.getChild(2).getText()));
+        varvalueTable.put(ctx.getChild(0).getText(),varvalueTable.get(ctx.getChild(2).getText()));
+        //LLVMBuildRet(builder,null);
     }
     private void generateIRVarAssign_num(goSubsetParser.VarAssign_numContext ctx) {
-
+        //LLVMBasicBlockRef block = addBasicBlock(hashnameTable.get(ctx.parent.parent.parent.hashCode()),"Var_Num_Assignment: "+ctx.getChild(0).getText()+ctx.getChild(1).getText()+ctx.getChild(2).getText());
+        //LLVMPositionBuilderAtEnd(builder, block);
+        LLVMValueRef tempnum = LLVMConstInt(int32,0,Integer.parseInt(ctx.getChild(2).getText()));
+        varvalueTable.replace(ctx.getChild(0).getText(),Integer.parseInt(ctx.getChild(2).getText()));
+        //LLVMBuildRet(builder,null);
     }
-
+    //creates a basic block in  a specific function with specific name
+    private LLVMBasicBlockRef addBasicBlock(LLVMBasicBlockRef block,String str){
+        LLVMBasicBlockRef tempblock = LLVMInsertBasicBlockInContext(context,block,str);
+        return tempblock;
+    }
+    private LLVMBasicBlockRef createBasicBlock(String func,String block_str){
+        LLVMBasicBlockRef tempblock = LLVMAppendBasicBlockInContext(context,llvmsymbolTable.get(func),block_str);
+        LLVMPositionBuilderAtEnd(builder, tempblock);
+        LLVMBuildRet(builder,null);
+        return tempblock;
+    }
     public void printIR() {
         /*for (int i = 0; i < llvmIR.size(); i++) {
             System.out.println(llvmIR.get(i));

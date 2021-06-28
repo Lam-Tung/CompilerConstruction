@@ -86,8 +86,8 @@ public class Antlr_Parser {
 
 
         System.out.println();
-        System.out.println("; Running factorial(10) with MCJIT...");
-        System.out.println("; Result: ");
+        System.out.println("; Finished Processing ...");
+
 
         // Stage 6: Dispose of the allocated resources
         LLVMDisposeExecutionEngine(engine);
