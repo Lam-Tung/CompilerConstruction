@@ -1,5 +1,9 @@
 package antlr;
-
+/*
+###################################################################################################################
+This is the LLVM Fibocci Tutorial we followed to learn how to use multiple functions from the API
+###################################################################################################################
+ */
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.PointerPointer;
@@ -34,6 +38,9 @@ public class LLVM {
         LLVMValueRef n = LLVMGetParam(factorial, /* parameterIndex */0);
         LLVMValueRef zero = LLVMConstInt(i32Type, 0, /* signExtend */ 0);
         LLVMValueRef one = LLVMConstInt(i32Type, 1, /* signExtend */ 0);
+        //LLVMValueRef n1 = LLVMGetParam(null, /* parameterIndex */0);
+        //LLVMValueRef zero1 = LLVMConstInt(LLVMVoidType(), 0, /* signExtend */ 0);
+        //LLVMValueRef nMinusOne = LLVMBuildSub(builder, n1, zero1, "nMinusOne = n - 1"); type mismatch
         LLVMBasicBlockRef entry = LLVMAppendBasicBlockInContext(context, factorial, "entry");
         LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlockInContext(context, factorial, "if_false");
         LLVMBasicBlockRef exit = LLVMAppendBasicBlockInContext(context, factorial, "exit");
